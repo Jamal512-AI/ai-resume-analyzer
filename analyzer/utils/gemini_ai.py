@@ -11,16 +11,22 @@ from google.genai import types
 def _generate_with_fallback(api_key, prompt):
     """
     Tries modern Gemini models via the new HTTP-based genai client.
+    Forces v1 API version to prevent 404 errors on v1beta endpoints.
     """
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(api_key=api_key, http_options={'api_version': 'v1'})
     
-    # Modern stable models
+    # Exhaustive list of models to ensure compatibility with ANY key/region
     models_to_try = [
+        'gemini-3.1-pro',
+        'gemini-3.0-pro',
         'gemini-2.5-flash',
         'gemini-2.5-pro',
         'gemini-2.0-flash',
+        'gemini-1.5-pro-latest',
+        'gemini-1.5-pro',
         'gemini-1.5-flash',
-        'gemini-1.5-pro'
+        'gemini-1.0-pro',
+        'gemini-pro'
     ]
     
     last_error = None
