@@ -1,6 +1,7 @@
 django>=4.2
 google-generativeai
-selenium
+requests
+beautifulsoup4
 PyPDF2
 python-docx
 reportlab
