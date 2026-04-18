@@ -115,3 +115,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Gemini API Key (from environment or user input)
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+
+# --- VERCEL SERVERLESS FIXES ---
+# Vercel has a Read-Only file system, so SQLite cannot be written to.
+# We store sessions in signed browser cookies instead of the database.
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
