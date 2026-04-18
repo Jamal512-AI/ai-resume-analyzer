@@ -32,10 +32,23 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <a href="{% url 'analyzer:home' %}" class="nav-brand">
-                <span class="brand-icon">🧠</span>
-                <span>Resume<span class="text-gradient">AI</span></span>
-            </a>
+            <div class="nav-brand-container" style="display: flex; align-items: center; justify-content: center; gap: 1.5rem;">
+                <!-- Profile Photo -->
+                <div class="profile-frame" style="display: flex; align-items: center; gap: 0.75rem; background: rgba(5, 10, 20, 0.4); border-radius: 50px; padding: 5px 15px 5px 5px; border: 1px solid rgba(79, 110, 247, 0.2);">
+                    <!-- We will use a placeholder image source until you add the image to the folder -->
+                    <img src="{% static 'img/jamal_profile.jpg' %}" alt="Jamal Hassan" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #4F6EF7; box-shadow: 0 0 10px rgba(79, 110, 247, 0.3);">
+                    <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1rem; color: #E8EAF6; letter-spacing: 0.5px;">Jamal Hassan</span>
+                </div>
+                
+                <!-- Separator line -->
+                <div style="height: 25px; width: 1px; background-color: rgba(255,255,255,0.1);"></div>
+
+                <!-- Existing Logo -->
+                <a href="{% url 'analyzer:home' %}" class="nav-brand">
+                    <span class="brand-icon">🧠</span>
+                    <span>Resume<span class="text-gradient">AI</span></span>
+                </a>
+            </div>
 
             <div class="nav-toggle" id="navToggle" onclick="toggleMobileNav()">
                 <span></span>
