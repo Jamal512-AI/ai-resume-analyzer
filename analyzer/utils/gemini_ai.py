@@ -11,20 +11,18 @@ from google.genai import types
 def _generate_with_fallback(api_key, prompt):
     """
     Tries modern Gemini models via the new HTTP-based genai client.
-    Forces v1 API version to prevent 404 errors on v1beta endpoints.
     """
-    client = genai.Client(api_key=api_key, http_options={'api_version': 'v1'})
+    client = genai.Client(api_key=api_key)
     
     # Exhaustive list of models to ensure compatibility with ANY key/region
+    # Prioritizing universally accessible standard models first
     models_to_try = [
-        'gemini-3.1-pro',
-        'gemini-3.0-pro',
-        'gemini-2.5-flash',
-        'gemini-2.5-pro',
-        'gemini-2.0-flash',
-        'gemini-1.5-pro-latest',
-        'gemini-1.5-pro',
         'gemini-1.5-flash',
+        'gemini-1.5-flash-latest',
+        'gemini-1.5-flash-8b',
+        'gemini-2.5-flash',
+        'gemini-2.0-flash',
+        'gemini-1.5-pro',
         'gemini-1.0-pro',
         'gemini-pro'
     ]
@@ -40,19 +38,25 @@ def _generate_with_fallback(api_key, prompt):
             if response.text:
                 return response.text
         except Exception as e:
-            last_error = str(e)
-            # If the API key is completely invalid, break immediately
-            if "API key not valid" in last_error or "API_KEY_INVALID" in last_error or "400" in last_error and "API key" in last_error:
-                raise Exception("Invalid API Key provided. Please check your Gemini API key.")
+            error_msg = str(e)
+            last_error = error_msg
             
-            # Continue to next model on 404 or missing quota
+            # Fatal errors: Immediately stop and report the REAL issue to the user
+            if "API key not valid" in error_msg or "API_KEY_INVALID" in error_msg:
+                raise Exception("Invalid API Key provided. Please check your Gemini API key.")
+            if "403" in error_msg or "PERMISSION_DENIED" in error_msg:
+                raise Exception(f"API Access Denied (403): Your API key does not have permission. Details: {error_msg}")
+            if "400" in error_msg and "API key" not in error_msg:
+                raise Exception(f"Bad Request (400): {error_msg}")
+                
+            # If it's just a 404 (model doesn't exist) or 429 (quota limit), we continue to the next model
             continue
             
-    # If all models failed, raise the final error
+    # If we get here, all models failed
     if last_error and ("429" in last_error or "quota" in last_error.lower()):
-        raise Exception("Google Gemini API Quota Exceeded. Please try again later or use a different API key.")
+        raise Exception("Google Gemini API Quota Exceeded. Please try again or use a new API key.")
     
-    raise Exception(f"Failed to analyze with Gemini. Models exhausted. Details: {last_error}")
+    raise Exception(f"All models completely failed. Final underlying error: {last_error}")
 
 
 def analyze_resume(api_key, resume_text, task):
