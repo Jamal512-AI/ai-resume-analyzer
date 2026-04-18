@@ -104,9 +104,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
 USE_X_FORWARDED_PORT = True
 
-# Allows incoming POST requests from the Hugging Face proxy domain
+# Allows incoming POST requests from proxy domains
 CSRF_TRUSTED_ORIGINS = [
     'https://*.hf.space',
+    'https://*.vercel.app',
     'http://localhost:7860',
     'http://127.0.0.1:7860',
 ]
