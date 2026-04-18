@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered resume analysis platform using Google Gemini. Get instant resume summaries, strengths, weaknesses, job title suggestions, and JD gap analysis.">
+    <title>{% block title %}AI Resume Intelligence{% endblock %} | Resume Analyzer AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Background Mesh -->
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="{% url 'analyzer:home' %}" class="nav-brand">
+                <span class="brand-icon">🧠</span>
+                <span>Resume<span class="text-gradient">AI</span></span>
+            </a>
+
+            <div class="nav-toggle" id="navToggle" onclick="toggleMobileNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="{% url 'analyzer:home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">🏠 Home</a></li>
+                <li><a href="{% url 'analyzer:home' %}#analyze" class="{% if request.resolver_match.url_name in 'summary strength weakness job_titles' %}active{% endif %}" data-section="analyze">📄 Analyze</a></li>
+                <li><a href="{% url 'analyzer:home' %}#gap" class="{% if request.resolver_match.url_name == 'gap_analysis' %}active{% endif %}" data-section="gap">🎯 Gap Analysis</a></li>
+                <li><a href="{% url 'analyzer:home' %}#linkedin" class="{% if request.resolver_match.url_name == 'linkedin' %}active{% endif %}" data-section="linkedin">💼 LinkedIn</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-spinner"></div>
+        <p class="loader-text" id="loaderText">Analyzing your resume with AI...</p>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Built with 🧠 AI Resume Intelligence Platform &mdash; Powered by <a href="https://ai.google.dev/" target="_blank">Google Gemini</a></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

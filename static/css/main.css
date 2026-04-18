@@ -1,0 +1,189 @@
+/* ============================================
+   AI Resume Intelligence Platform
+   Main CSS — Design Tokens & Global Styles
+   ============================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── CSS Custom Properties (Design Tokens) ─── */
+:root {
+    /* Background Colors */
+    --bg-primary: #050A14;
+    --bg-secondary: #0A1128;
+    --bg-tertiary: #0D1426;
+    --bg-card: rgba(13, 20, 38, 0.65);
+
+    /* Accent Colors */
+    --accent-primary: #4F6EF7;
+    --accent-secondary: #9B5CFF;
+    --accent-glow: #00D4FF;
+    --accent-success: #00E676;
+    --accent-warning: #FFD600;
+    --accent-danger: #FF5252;
+
+    /* Gradient */
+    --gradient-primary: linear-gradient(135deg, #4F6EF7 0%, #9B5CFF 50%, #00D4FF 100%);
+    --gradient-hero: linear-gradient(135deg, #050A14 0%, #0A1128 40%, #111B3C 100%);
+    --gradient-card: linear-gradient(145deg, rgba(79,110,247,0.08) 0%, rgba(155,92,255,0.04) 100%);
+
+    /* Glass */
+    --glass-bg: rgba(13, 20, 38, 0.6);
+    --glass-border: rgba(79, 110, 247, 0.2);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --glass-blur: blur(20px);
+
+    /* Text */
+    --text-primary: #E8EAF6;
+    --text-secondary: #8892B0;
+    --text-muted: #5A6380;
+    --text-accent: #4F6EF7;
+
+    /* Typography */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 50%;
+
+    /* Transitions */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Reset & Base ─── */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2.25rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--accent-glow);
+}
+
+/* ─── Selection ─── */
+::selection {
+    background: rgba(79, 110, 247, 0.3);
+    color: var(--text-primary);
+}
+
+/* ─── Container ─── */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+}
+
+.container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+}
+
+/* ─── Background Mesh ─── */
+.bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(79, 110, 247, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(155, 92, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(0, 212, 255, 0.04) 0%, transparent 50%),
+        var(--bg-primary);
+}
+
+/* ─── Utility Classes ─── */
+.text-center { text-align: center; }
+.text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mt-1 { margin-top: var(--space-md); }
+.mt-2 { margin-top: var(--space-xl); }
+.mt-3 { margin-top: var(--space-3xl); }
+.mb-1 { margin-bottom: var(--space-md); }
+.mb-2 { margin-bottom: var(--space-xl); }
+
+.hidden { display: none !important; }
+.visible { display: block !important; }

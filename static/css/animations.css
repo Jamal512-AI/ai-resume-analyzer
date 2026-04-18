@@ -1,0 +1,318 @@
+/* ============================================
+   AI Resume Intelligence Platform
+   Animations CSS — Keyframes & Transitions
+   ============================================ */
+
+/* ─── Spin (Loader) ─── */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ─── Fade In Up ─── */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Fade In Down ─── */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Fade In ─── */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ─── Scale In ─── */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ─── Slide In Left ─── */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ─── Float ─── */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* ─── Glow Pulse ─── */
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(79, 110, 247, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(79, 110, 247, 0.4),
+                    0 0 80px rgba(79, 110, 247, 0.1);
+    }
+}
+
+/* ─── Gradient Shift ─── */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ─── Typing Cursor ─── */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ─── Orbit ─── */
+@keyframes orbit1 {
+    from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+    from { transform: rotate(120deg) translateX(160px) rotate(-120deg); }
+    to { transform: rotate(480deg) translateX(160px) rotate(-480deg); }
+}
+
+@keyframes orbit3 {
+    from { transform: rotate(240deg) translateX(200px) rotate(-240deg); }
+    to { transform: rotate(600deg) translateX(200px) rotate(-600deg); }
+}
+
+/* ─── Stagger Animations ─── */
+.animate-fade-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* ─── Hero Section Animations ─── */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 80px;
+    overflow: hidden;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.hero .hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto var(--space-xl);
+    animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+/* Typing effect */
+.typing-text {
+    display: inline;
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.2em;
+    background: var(--accent-primary);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.7s step-end infinite;
+}
+
+/* Floating orbs */
+.hero-orbs {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.hero-orb {
+    position: absolute;
+    border-radius: var(--radius-full);
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero-orb:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    background: rgba(79, 110, 247, 0.15);
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.hero-orb:nth-child(2) {
+    width: 250px;
+    height: 250px;
+    background: rgba(155, 92, 255, 0.12);
+    top: 60%;
+    right: 10%;
+    animation-delay: -2s;
+}
+
+.hero-orb:nth-child(3) {
+    width: 200px;
+    height: 200px;
+    background: rgba(0, 212, 255, 0.1);
+    top: 10%;
+    right: 30%;
+    animation-delay: -4s;
+}
+
+/* ─── Orbiting Skill Icons ─── */
+.orbit-container {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.orbit-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: rgba(13, 20, 38, 0.8);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(10px);
+}
+
+.orbit-icon:nth-child(1) { animation: orbit1 15s linear infinite; }
+.orbit-icon:nth-child(2) { animation: orbit2 20s linear infinite; }
+.orbit-icon:nth-child(3) { animation: orbit3 25s linear infinite; }
+
+/* ─── Stats Counter ─── */
+.stats-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3xl);
+    margin-top: var(--space-2xl);
+    animation: fadeInUp 0.8s ease-out 0.6s backwards;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* ─── Page transition ─── */
+.page-content {
+    padding-top: 100px;
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ─── Chart containers ─── */
+.chart-container {
+    width: 100%;
+    min-height: 350px;
+    animation: scaleIn 0.6s ease-out;
+}
+
+/* ─── Responsive Hero ─── */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .orbit-container {
+        width: 250px;
+        height: 250px;
+    }
+
+    .stats-row {
+        flex-wrap: wrap;
+        gap: var(--space-xl);
+    }
+}

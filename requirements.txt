@@ -1,0 +1,16 @@
+django>=4.2
+google-generativeai
+faiss-cpu
+langchain
+langchain-community
+langchain-google-genai
+sentence-transformers
+selenium
+PyPDF2
+python-docx
+reportlab
+plotly
+gunicorn
+whitenoise
+numpy
+pandas

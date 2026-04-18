@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- ═══════════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+    <div class="hero-orbs">
+        <div class="hero-orb"></div>
+        <div class="hero-orb"></div>
+        <div class="hero-orb"></div>
+    </div>
+
+    <div class="orbit-container">
+        <div class="orbit-icon">📄</div>
+        <div class="orbit-icon">🤖</div>
+        <div class="orbit-icon">💡</div>
+    </div>
+
+    <div class="hero-content">
+        <h1>
+            <span class="text-gradient">AI-Powered</span><br>
+            Resume Intelligence
+        </h1>
+        <p class="hero-subtitle">
+            Upload your resume and let advanced AI analyze, score, and suggest improvements — 
+            <span class="typing-text" id="typingText"></span><span class="typing-cursor"></span>
+        </p>
+        <div class="hero-actions">
+            <a href="#analyze" class="btn btn-primary btn-lg" onclick="scrollToSection('analyze')">
+                🚀 Start Analysis
+            </a>
+            <a href="#features" class="btn btn-secondary btn-lg" onclick="scrollToSection('features')">
+                ✨ View Features
+            </a>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Analysis Modes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">AI</div>
+                <div class="stat-label">Gemini Powered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">PDF</div>
+                <div class="stat-label">Export Reports</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">🔗</div>
+                <div class="stat-label">LinkedIn Scraper</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURES SECTION
+     ═══════════════════════════════════════════ -->
+<section id="features" style="padding: var(--space-3xl) 0;">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Features</span>
+            <h2>Everything You Need to <span class="text-gradient">Land Your Dream Job</span></h2>
+            <p>Comprehensive AI-driven resume analysis with actionable insights</p>
+        </div>
+
+        <div class="grid-3">
+            <div class="feature-card animate-fade-up stagger-1">
+                <div class="feature-icon">📝</div>
+                <h3>Smart Summary</h3>
+                <p>Get a comprehensive AI-generated overview of your qualifications, skills, and experience.</p>
+            </div>
+
+            <div class="feature-card animate-fade-up stagger-2">
+                <div class="feature-icon">💪</div>
+                <h3>Strength Analysis</h3>
+                <p>Discover your standout qualities and competitive advantages in the job market.</p>
+            </div>
+
+            <div class="feature-card animate-fade-up stagger-3">
+                <div class="feature-icon">🎯</div>
+                <h3>Weakness Audit</h3>
+                <p>Identify gaps and get specific, actionable suggestions to improve your resume.</p>
+            </div>
+
+            <div class="feature-card animate-fade-up stagger-4">
+                <div class="feature-icon">💼</div>
+                <h3>Job Matching</h3>
+                <p>Receive personalized job title recommendations aligned with your profile.</p>
+            </div>
+
+            <div class="feature-card animate-fade-up stagger-5">
+                <div class="feature-icon">📊</div>
+                <h3>JD Gap Analysis</h3>
+                <p>Compare your resume against any job description and get a match score.</p>
+            </div>
+
+            <div class="feature-card animate-fade-up stagger-6">
+                <div class="feature-icon">🔗</div>
+                <h3>LinkedIn Scraper</h3>
+                <p>Automatically find and scrape relevant job listings from LinkedIn.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ANALYZE SECTION (Main Tool)
+     ═══════════════════════════════════════════ -->
+<section id="analyze" style="padding: var(--space-3xl) 0;">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Analyze</span>
+            <h2>Resume <span class="text-gradient">Analysis</span></h2>
+            <p>Upload your resume, choose an analysis type, and let AI do the rest</p>
+        </div>
+
+        <div class="glass-card-static" style="max-width: 900px; margin: 0 auto;">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab-summary" onclick="switchTab(this, 'tab-summary')">📝 Summary</button>
+                <button class="tab-btn" data-tab="tab-strength" onclick="switchTab(this, 'tab-strength')">💪 Strength</button>
+                <button class="tab-btn" data-tab="tab-weakness" onclick="switchTab(this, 'tab-weakness')">🎯 Weakness</button>
+                <button class="tab-btn" data-tab="tab-jobtitles" onclick="switchTab(this, 'tab-jobtitles')">💼 Job Titles</button>
+            </div>
+
+            <!-- Tab Content: Summary -->
+            <div class="tab-content active" id="tab-summary">
+                <form id="summaryForm" onsubmit="submitAnalysis(event, 'summary')">
+                    <div class="upload-zone" id="uploadZoneSummary">
+                        <div class="upload-icon">📄</div>
+                        <p class="upload-text">Drag & drop your resume here</p>
+                        <p class="upload-hint">Supports PDF, DOCX, TXT — Max 10MB</p>
+                        <input type="file" name="resume" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this, 'uploadZoneSummary')" required>
+                        <p class="file-name" id="fileNameSummary"></p>
+                    </div>
+                    <div class="form-group" style="margin-top: var(--space-lg);">
+                        <label class="form-label">🔑 Gemini API Key</label>
+                        <input type="password" name="api_key" class="form-input" placeholder="Enter your Gemini API key..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        🚀 Analyze Resume
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab Content: Strength -->
+            <div class="tab-content" id="tab-strength">
+                <form id="strengthForm" onsubmit="submitAnalysis(event, 'strength')">
+                    <div class="upload-zone" id="uploadZoneStrength">
+                        <div class="upload-icon">💪</div>
+                        <p class="upload-text">Drag & drop your resume here</p>
+                        <p class="upload-hint">Supports PDF, DOCX, TXT — Max 10MB</p>
+                        <input type="file" name="resume" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this, 'uploadZoneStrength')" required>
+                        <p class="file-name" id="fileNameStrength"></p>
+                    </div>
+                    <div class="form-group" style="margin-top: var(--space-lg);">
+                        <label class="form-label">🔑 Gemini API Key</label>
+                        <input type="password" name="api_key" class="form-input" placeholder="Enter your Gemini API key..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        💪 Analyze Strengths
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab Content: Weakness -->
+            <div class="tab-content" id="tab-weakness">
+                <form id="weaknessForm" onsubmit="submitAnalysis(event, 'weakness')">
+                    <div class="upload-zone" id="uploadZoneWeakness">
+                        <div class="upload-icon">🎯</div>
+                        <p class="upload-text">Drag & drop your resume here</p>
+                        <p class="upload-hint">Supports PDF, DOCX, TXT — Max 10MB</p>
+                        <input type="file" name="resume" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this, 'uploadZoneWeakness')" required>
+                        <p class="file-name" id="fileNameWeakness"></p>
+                    </div>
+                    <div class="form-group" style="margin-top: var(--space-lg);">
+                        <label class="form-label">🔑 Gemini API Key</label>
+                        <input type="password" name="api_key" class="form-input" placeholder="Enter your Gemini API key..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        🎯 Find Weaknesses
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab Content: Job Titles -->
+            <div class="tab-content" id="tab-jobtitles">
+                <form id="jobtitlesForm" onsubmit="submitAnalysis(event, 'job-titles')">
+                    <div class="upload-zone" id="uploadZoneJobTitles">
+                        <div class="upload-icon">💼</div>
+                        <p class="upload-text">Drag & drop your resume here</p>
+                        <p class="upload-hint">Supports PDF, DOCX, TXT — Max 10MB</p>
+                        <input type="file" name="resume" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this, 'uploadZoneJobTitles')" required>
+                        <p class="file-name" id="fileNameJobTitles"></p>
+                    </div>
+                    <div class="form-group" style="margin-top: var(--space-lg);">
+                        <label class="form-label">🔑 Gemini API Key</label>
+                        <input type="password" name="api_key" class="form-input" placeholder="Enter your Gemini API key..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        💼 Suggest Job Titles
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Container -->
+            <div id="analysisResults" class="result-section hidden">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md);">
+                    <h3 class="text-gradient">Analysis Results</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="exportPDF()">📥 Download Report</button>
+                </div>
+                <div class="glass-card" id="resultContent" style="margin-bottom: var(--space-lg);">
+                    <div class="result-content" id="resultText"></div>
+                </div>
+                <div id="radarChartContainer" class="hidden">
+                    <h4 style="margin-bottom: var(--space-md); color: var(--text-secondary);">📊 Skills Radar</h4>
+                    <div class="glass-card">
+                        <div id="radarChart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GAP ANALYSIS SECTION (New Feature)
+     ═══════════════════════════════════════════ -->
+<section id="gap" style="padding: var(--space-3xl) 0;">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">New Feature</span>
+            <h2>JD <span class="text-gradient">Gap Analysis</span></h2>
+            <p>Compare your resume against any job description to see how you match up</p>
+        </div>
+
+        <div class="glass-card-static" style="max-width: 900px; margin: 0 auto;">
+            <form id="gapForm" onsubmit="submitGapAnalysis(event)">
+                <div class="grid-2" style="gap: var(--space-lg);">
+                    <div>
+                        <div class="upload-zone" id="uploadZoneGap" style="padding: var(--space-xl);">
+                            <div class="upload-icon">📄</div>
+                            <p class="upload-text">Upload Resume</p>
+                            <p class="upload-hint">PDF, DOCX, TXT</p>
+                            <input type="file" name="resume" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this, 'uploadZoneGap')" required>
+                            <p class="file-name" id="fileNameGap"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">📋 Paste Job Description</label>
+                        <textarea name="job_description" class="form-textarea" rows="8" placeholder="Paste the full job description here..." required style="height: calc(100% - 30px);"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: var(--space-lg);">
+                    <label class="form-label">🔑 Gemini API Key</label>
+                    <input type="password" name="api_key" class="form-input" placeholder="Enter your Gemini API key..." required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    📊 Run Gap Analysis
+                </button>
+            </form>
+
+            <!-- Gap Analysis Results -->
+            <div id="gapResults" class="result-section hidden">
+                <h3 class="text-gradient" style="margin-bottom: var(--space-lg);">Gap Analysis Results</h3>
+
+                <div class="grid-2" style="margin-bottom: var(--space-xl);">
+                    <!-- Gauge Chart -->
+                    <div class="glass-card">
+                        <h4 style="text-align: center; margin-bottom: var(--space-sm); color: var(--text-secondary);">Match Score</h4>
+                        <div id="gaugeChart" class="chart-container" style="min-height: 250px;"></div>
+                    </div>
+
+                    <!-- Skills Tags -->
+                    <div class="glass-card">
+                        <div style="margin-bottom: var(--space-lg);">
+                            <h4 style="color: var(--accent-success); margin-bottom: var(--space-sm);">✅ Matching Skills</h4>
+                            <div class="tags-container" id="matchingSkills"></div>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent-danger); margin-bottom: var(--space-sm);">❌ Missing Skills</h4>
+                            <div class="tags-container" id="missingSkills"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assessment & Suggestions -->
+                <div class="glass-card" id="gapAssessment">
+                    <h4 style="color: var(--text-primary); margin-bottom: var(--space-md);">💡 Overall Assessment</h4>
+                    <div class="result-content" id="assessmentText"></div>
+                </div>
+
+                <div class="glass-card" id="gapSuggestions" style="margin-top: var(--space-md);">
+                    <h4 style="color: var(--text-primary); margin-bottom: var(--space-md);">🔧 Improvement Suggestions</h4>
+                    <div class="result-content" id="suggestionsText"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: var(--space-lg);">
+                    <button class="btn btn-secondary" onclick="exportPDF()">📥 Download Full Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LINKEDIN SCRAPER SECTION
+     ═══════════════════════════════════════════ -->
+<section id="linkedin" style="padding: var(--space-3xl) 0;">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Job Discovery</span>
+            <h2>LinkedIn <span class="text-gradient">Job Scraper</span></h2>
+            <p>Automatically scrape and browse relevant job listings from LinkedIn</p>
+        </div>
+
+        <div class="glass-card-static" style="max-width: 900px; margin: 0 auto;">
+            <form id="linkedinForm" onsubmit="submitLinkedIn(event)">
+                <div class="grid-3" style="gap: var(--space-md);">
+                    <div class="form-group">
+                        <label class="form-label">🏷️ Job Title(s)</label>
+                        <input type="text" name="job_title" class="form-input" placeholder="e.g. Data Scientist, ML Engineer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">📍 Location</label>
+                        <input type="text" name="job_location" class="form-input" value="India" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">🔢 Job Count</label>
+                        <input type="number" name="job_count" class="form-input" value="5" min="1" max="25" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    🔍 Search LinkedIn Jobs
+                </button>
+            </form>
+
+            <!-- LinkedIn Results -->
+            <div id="linkedinResults" class="result-section hidden">
+                <h3 class="text-gradient" style="margin-bottom: var(--space-lg);">Job Listings</h3>
+                <div id="jobCards"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ─── Typing Animation ───
+const typingPhrases = [
+    "in seconds, not hours.",
+    "with Gemini AI intelligence.",
+    "and match it to dream jobs.",
+    "to beat ATS every time."
+];
+
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+const typingEl = document.getElementById('typingText');
+
+function typeEffect() {
+    const current = typingPhrases[phraseIndex];
+
+    if (isDeleting) {
+        typingEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        typingEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+    }
+
+    let speed = isDeleting ? 30 : 60;
+
+    if (!isDeleting && charIndex === current.length) {
+        speed = 2000; // Pause at end
+        isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % typingPhrases.length;
+        speed = 500;
+    }
+
+    setTimeout(typeEffect, speed);
+}
+
+typeEffect();
+
+// ─── Smooth Scroll ───
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+</script>
+{% endblock %}
