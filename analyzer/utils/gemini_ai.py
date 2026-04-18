@@ -1,51 +1,52 @@
 """
 Gemini AI integration for resume analysis.
-Uses a robust fallback system to ensure it works with ANY valid Gemini API key.
+Uses the modern `google-genai` SDK which runs purely over HTTP REST,
+ensuring 100% compatibility with Vercel's Serverless environment.
 """
 import json
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 
 def _generate_with_fallback(api_key, prompt):
     """
-    Tries multiple Gemini models to ensure compatibility across all API keys.
-    Some keys only allow 1.5-flash, others only allow gemini-pro.
+    Tries modern Gemini models via the new HTTP-based genai client.
     """
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
     
-    # List of models to try in order of preference (modern -> fallback)
+    # Modern stable models
     models_to_try = [
-        'gemini-3.1-pro',
-        'gemini-3-pro',
-        'gemini-3',
         'gemini-2.5-flash',
+        'gemini-2.5-pro',
         'gemini-2.0-flash',
-        'gemini-1.5-pro-latest',
         'gemini-1.5-flash',
-        'gemini-pro'
+        'gemini-1.5-pro'
     ]
     
     last_error = None
     
     for model_name in models_to_try:
         try:
-            model = genai.GenerativeModel(model_name)
-            response = model.generate_content(prompt)
-            return response.text
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt
+            )
+            if response.text:
+                return response.text
         except Exception as e:
             last_error = str(e)
-            # If the error is 400 (Invalid API key) or something fatal, break immediately
-            if "API key not valid" in last_error or "API_KEY_INVALID" in last_error:
+            # If the API key is completely invalid, break immediately
+            if "API key not valid" in last_error or "API_KEY_INVALID" in last_error or "400" in last_error and "API key" in last_error:
                 raise Exception("Invalid API Key provided. Please check your Gemini API key.")
             
-            # Otherwise, it might be a 404 (model not found) or 429 (quota), continue to next model
+            # Continue to next model on 404 or missing quota
             continue
             
     # If all models failed, raise the final error
-    if "429" in str(last_error) or "quota" in str(last_error).lower():
+    if last_error and ("429" in last_error or "quota" in last_error.lower()):
         raise Exception("Google Gemini API Quota Exceeded. Please try again later or use a different API key.")
     
-    raise Exception(f"Failed to analyze with Gemini. Please check your API key. Details: {last_error}")
+    raise Exception(f"Failed to analyze with Gemini. Models exhausted. Details: {last_error}")
 
 
 def analyze_resume(api_key, resume_text, task):
